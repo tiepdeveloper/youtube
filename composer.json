@@ -17,7 +17,7 @@
   },
   "autoload": {
     "psr-0": {
-      "sositglobal\\Youtube\\": "src/"
+      "Sositglobal\\Youtube\\": "src/"
     }
   },
   "minimum-stability": "dev"
