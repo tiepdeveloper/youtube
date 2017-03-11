@@ -1,5 +1,5 @@
 {
-  "name": "Sositglobal/youtube",
+  "name": "sositglobal/youtube",
   "description": "Laravel PHP Facade/Wrapper for the Youtube Data API v3",
   "keywords": ["youtube", "api", "video", "laravel", "tiepnd2","tiepdeveloper@gmail.com"],
   "license": "MIT",
