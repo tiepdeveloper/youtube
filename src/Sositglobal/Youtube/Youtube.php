@@ -43,11 +43,12 @@ class Youtube
             throw new \Exception('Google API key is Required, please visit https://console.developers.google.com/');
         }
     }
+
     public function getCategoryInfo($vId, $part = ['snippet'])
     {
         $API_URL = $this->getApi('videoCategories.list');
         $params = array(
-            'id' =>  $vId,
+            'id' => $vId,
             'key' => $this->youtube_key,
             'part' => implode(', ', $part),
         );
@@ -60,6 +61,7 @@ class Youtube
 
         return $this->decodeSingle($apiData);
     }
+
     /**
      * @param $vId
      * @param array $part
@@ -92,7 +94,7 @@ class Youtube
      * @param array $part
      * @return array
      */
-    public function getPopularVideos($regionCode, $maxResults = 10, $part = ['id', 'snippet', 'contentDetails', 'player', 'statistics', 'status'])
+    public function getPopularVideos($regionCode, $maxResults = 10, $pageInfo = false, $new_params = array(), $part = ['id', 'snippet', 'contentDetails', 'player', 'statistics', 'status'])
     {
         $API_URL = $this->getApi('videos.list');
         $params = array(
@@ -100,12 +102,19 @@ class Youtube
             'part' => implode(', ', $part),
             'maxResults' => $maxResults,
         );
-        if($regionCode !== null){
-            $params['regionCode'] =  $regionCode;
+        $params = array_merge($params, $new_params);
+        if ($regionCode !== null) {
+            $params['regionCode'] = $regionCode;
         }
         $apiData = $this->api_get($API_URL, $params);
-
-        return $this->decodeList($apiData);
+        if ($pageInfo) {
+            return array(
+                'results' => $this->decodeList($apiData),
+                'info' => $this->page_info,
+            );
+        } else {
+            return $this->decodeList($apiData);
+        }
     }
 
     /**
@@ -317,7 +326,7 @@ class Youtube
         $apiData = $this->api_get($API_URL, $params);
 
         $result = ['results' => $this->decodeList($apiData)];
-        $result['info']['totalResults'] =  (isset($this->page_info['totalResults']) ? $this->page_info['totalResults'] : 0);
+        $result['info']['totalResults'] = (isset($this->page_info['totalResults']) ? $this->page_info['totalResults'] : 0);
         $result['info']['nextPageToken'] = (isset($this->page_info['nextPageToken']) ? $this->page_info['nextPageToken'] : false);
         $result['info']['prevPageToken'] = (isset($this->page_info['prevPageToken']) ? $this->page_info['prevPageToken'] : false);
 
@@ -364,7 +373,7 @@ class Youtube
 
         $apiData = $this->api_get($API_URL, $params);
         $result = ['results' => $this->decodeList($apiData)];
-        $result['info']['totalResults'] =  (isset($this->page_info['totalResults']) ? $this->page_info['totalResults'] : 0);
+        $result['info']['totalResults'] = (isset($this->page_info['totalResults']) ? $this->page_info['totalResults'] : 0);
         $result['info']['nextPageToken'] = (isset($this->page_info['nextPageToken']) ? $this->page_info['nextPageToken'] : false);
         $result['info']['prevPageToken'] = (isset($this->page_info['prevPageToken']) ? $this->page_info['prevPageToken'] : false);
 
