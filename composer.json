@@ -1,0 +1,24 @@
+{
+  "name": "tiepnd2/youtube",
+  "description": "Laravel PHP Facade/Wrapper for the Youtube Data API v3",
+  "keywords": ["youtube", "api", "video", "laravel", "tiepnd2","tiepdeveloper@gmail.com"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Nguyen Dinh Tiep",
+      "email": "tiepdeveloper@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.0"
+  },
+  "require-dev":{
+    "phpunit/phpunit": "3.7.*@stable"
+  },
+  "autoload": {
+    "psr-0": {
+      "sositglobal\\Youtube\\": "src/"
+    }
+  },
+  "minimum-stability": "dev"
+}
