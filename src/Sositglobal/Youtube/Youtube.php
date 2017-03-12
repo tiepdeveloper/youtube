@@ -86,6 +86,26 @@ class Youtube
         return $this->decodeSingle($apiData);
     }
 
+    public function getCategoryVideo($vId, $params, $maxResults = 10, $part = ['id', 'snippet', 'contentDetails', 'player', 'statistics', 'status'])
+    {
+        $API_URL = $this->getApi('videos.list');
+        $default = array(
+            'videoCategoryId' => $vId,
+            'key' => $this->youtube_key,
+            'chart' => 'mostPopular',
+            'maxResults' => $maxResults,
+            'part' => implode(', ', $part),
+            'order' => 'viewCount',
+            'kind' => 'youtube#videoCategoryListResponse'
+        );
+        $params = array_merge($default, $params);
+        $apiData = $this->api_get($API_URL, $params);
+        return array(
+            'results' => $this->decodeList($apiData),
+            'info' => $this->page_info,
+        );
+    }
+
     /**
      * Gets popular videos for a specific region (ISO 3166-1 alpha-2)
      *
